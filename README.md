@@ -1,0 +1,1 @@
+# SharePoint-JavaScript-To-Check-If-Current-User-Exists-In-A-SharePoint-Group
