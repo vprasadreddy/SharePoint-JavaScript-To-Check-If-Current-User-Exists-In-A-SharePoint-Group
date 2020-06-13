@@ -1,5 +1,5 @@
 # SharePoint-JavaScript-To-Check-If-Current-User-Exists-In-A-SharePoint-Group
-```
+```javascript
 function getCurrentUserSPMembershipGroups(groupnames, condition, callback) {
   var checkUserInGroupsString = groupnames;
   var checkUserInGroupsArray = checkUserInGroupsString.split(";");
