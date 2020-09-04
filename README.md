@@ -34,9 +34,9 @@ function getCurrentUserSPMembershipGroups(groupnames, condition, callback) {
         allGroupsArray.includes(group)
       );
     }
-    console.log("checker is " + userInGroups);
+    //console.log("checker is " + userInGroups);
     //alert(allGroupsArray);
-    console.log(checkUserInGroupsArray);
+    //console.log(checkUserInGroupsArray);
     callback(userInGroups);
     //alert(userInGroups);
   }
@@ -48,10 +48,15 @@ function getCurrentUserSPMembershipGroups(groupnames, condition, callback) {
   }
 }
 
-function checkUserInGroups(groupnames, condition) {
-  getCurrentUserSPMembershipGroups(groupnames, condition, function (
-    isCurrentUserInGroups
-  ) {
+var checkUserInGroups = function() {
+/* 
+enter a SharePoint group name or multiple groups separated by a semi-colon(;) and "AND" or "OR" condition
+	 for example:- 
+	 getCurrentUserSPMembershipGroups("Site Members", "AND") 
+	 getCurrentUserSPMembershipGroups("Site Members;Site Owners", "AND")
+	 getCurrentUserSPMembershipGroups("Site Visitors;Site Owners", "OR")
+*/
+  getCurrentUserSPMembershipGroups("SharePointGroupName(s)", "OR", function(isCurrentUserInGroups){
     //console.log(isCurrentUserInGroups);
     if (isCurrentUserInGroups) {
       console.log("Current user is present in group(s): " + groupnames);
@@ -61,20 +66,11 @@ function checkUserInGroups(groupnames, condition) {
   });
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
   /* using SharePoint SP.SOD to make sure SP.ClientContext is loaded before calling the checkUserInGroups(groupnames, condition) function */
-  SP.SOD.executeFunc("sp.js", "SP.ClientContext", function () {
-    console.log("Initiating SP.ClientContext");
+  SP.SOD.executeFunc("sp.js", "SP.ClientContext", function() {
+    //console.log("Initiating SP.ClientContext");
+     SP.SOD.executeOrDelayUntilScriptLoaded(checkUserInGroups, "sp.js");
   });
-  /* 
-	 provide one group or multiple groups separated by semi-colon (;) and "AND" or "OR" condition as shown below
-	 for example:- checkUserInGroups("Site Members", "AND") or 
-	 checkUserInGroups("Site Members;Site Owners", "AND") or
-	 checkUserInGroups("Site Visitors;Site Owners", "OR")
-	 */
-  SP.SOD.executeOrDelayUntilScriptLoaded(
-    checkUserInGroups("Site Members", "AND"),
-    "sp.js"
-  );
 });
 ```
